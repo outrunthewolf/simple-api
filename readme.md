@@ -6,21 +6,34 @@ The application lets you create characters and store them in a database for retr
 A list of basic routes the API provides
 
 Get an item from the API
-```GET /api/super/{id}
+```shell
+GET /api/super/{id}
+```
 
 Create an item with the API
-```POST /api/create/{data}
+```shell
+POST /api/create/{data}
+```
+
 
 Delete an item with the API
-```DELETE /api/drop/{id}
+```shell
+DELETE /api/drop/{id}
+```
 
 ## Configuration
 
 SQL file is included in the repo for test purposes. Database configured in:
-```app/config/database.php
+```shell
+app/config/database.php
+```
 
 Controller handling endpoints, etc... located in:
-```app/controllers/SuperController.php
+```shell  
+app/controllers/SuperController.php
+```
 
 Model uses eloquent, located in:
-```app/models/Super.php
+```shell
+app/models/Super.php
+```
