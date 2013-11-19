@@ -5,7 +5,7 @@ The application lets you create characters and store them in a database for retr
 ## Basic routes
 A list of basic routes the API provides
 
-Get an item from the API
+Get an item from the API, specify an id for a single item, or no id for an entire collection
 ```shell
 GET /api/super/{id}
 ```
@@ -14,7 +14,6 @@ Create an item with the API
 ```shell
 POST /api/create/{data}
 ```
-
 
 Delete an item with the API
 ```shell
