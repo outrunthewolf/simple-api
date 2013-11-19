@@ -10,7 +10,7 @@
     <script type="text/javascript" src="javascript/main.js"></script>
 
     <style>
-        /*@import url(http://fonts.googleapis.com/css?family=Sigmar+One);*/
+        @import url(http://fonts.googleapis.com/css?family=Sigmar+One);
 
         body {
             margin:0;
@@ -125,11 +125,21 @@
             box-shadow: 1px 3px 15px #A7A7A7;
         }
 
+        .card.villain {
+            border-top: solid 5px #bb041c;
+        }
+
+        .card.hero {
+             border-top: solid 5px #0979b6;
+        }
+
+        /* overlay */
         .overlay {
             display: none;
             background: rgba(54,54,54,0.8);
         }
 
+        /* Form stuff */
         form label {
             display: block;
             padding: 5px;
@@ -142,6 +152,32 @@
         footer p {
             color: #fff;
         }
+
+        /* superbox */
+        #super_box {
+            display: block;
+            height: 50px;
+            width: 50px;
+            background: #333;
+            position: absolute;
+            cursor: pointer;
+            top: 300px;
+            left: 50%;
+        }
+
+        /* hero cards */
+        #super_holder {
+            display: none;
+            list-style-type: none;
+            max-width: 760px;
+        }
+        #super_holder li {
+            float: left;
+            margin: 10px;
+        }
+
+        /* preloader */
+        
 
 
     </style>
@@ -156,24 +192,26 @@
         <div class="holder">
 
             <div id="overlay" class="overlay"></div>
+            <div id="preloader" class="preloader"></div>
 
             <!-- Header -->
             <header>
-                <h1>The Super Box</h1>
-                <p>Create you own Superheros or Supervillains, and watch them battle it out!</p>
+                <h1>The Box</h1>
+                <p>Create you own Superheros or Supervillains, and make them battle it out!</p>
             </header>
             
             <!-- Main bit -->
             <div class="main">
 
+                <!-- Buttons -->
                 <a href="javascript:void(0)" class="green button fl super hero" id="hero">Create a Hero!</a>
                 <a href="javascript:void(0)" class="red button fr super villain" id="villain">Create a Villain!</a>
 
+                <!-- Box -->
+                <div id="super_box"></div>
+
                 <!-- A Card -->
-                <div class="card hero" style="display: none;">
-                    <h3>Megaman!</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus convallis adipiscing metus, eget porta dolor sollicitudin sed. Morbi sit amet rhoncus elit. </p>
-                </div>
+                <ul id="super_holder"></ul>
 
                 <!-- Create a hero form -->
                 <div id="form_holder" class="form card" style="display: none;">

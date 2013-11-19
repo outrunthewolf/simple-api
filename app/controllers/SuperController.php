@@ -7,6 +7,16 @@ class SuperController extends BaseController {
 
     // Various vars for some stuff
     private $input;
+    private $avatars = array(
+        'http://static4.wikia.nocookie.net/__cb20130101030833/marveldatabase/images/e/e6/Thor_Main_Page_Icon.jpg',
+        'http://static2.wikia.nocookie.net/__cb20130101030909/marveldatabase/images/0/00/Deadpool_Main_Page_Icon.jpg',
+        'http://static4.wikia.nocookie.net/__cb20130602190229/marveldatabase/images/8/80/Kurse_Main_Page_Icon.jpg',
+        'http://static2.wikia.nocookie.net/__cb20101012052219/marveldatabase/images/7/7f/Red_Hulk_Main_Page_Icon.jpg',
+        'http://static1.wikia.nocookie.net/__cb20130602190227/marveldatabase/images/4/4b/Malekith_Main_Page_Icon.jpg',
+        'http://static4.wikia.nocookie.net/__cb20121027120555/marveldatabase/images/0/01/Journey_into_Mystery_645_textless.jpg',
+        'http://static2.wikia.nocookie.net/__cb20090509034261/marveldatabase/images/d/d8/Wolverine_Main_Page_Icon.jpg',
+        'http://static2.wikia.nocookie.net/__cb20130101030824/marveldatabase/images/9/98/Hulk_Main_Page_Icon.jpg'
+    );
 
     public function __construct()
     {
@@ -16,10 +26,6 @@ class SuperController extends BaseController {
     // get existing supers
     public function get_super($id = false)
     {
-        // Check its a number
-        //if(!is_int($id))
-        //   return $this->response(405, "Error: Method requires an integer");
-
         // If there is no id return them all
         if (!$id) 
             return Super::all();
@@ -31,7 +37,7 @@ class SuperController extends BaseController {
         if (!$super)
             return $this->response(404, "Error: We found no one");
 
-        return $super;
+        return json_encode($super);
     }
 
     // create a super
@@ -48,10 +54,17 @@ class SuperController extends BaseController {
         if(!isset($data['name'][0]))
             return $this->response(405, "Error: Superhero requires a name you fool!");
 
+        // Check the name doesn't already exist
+        $super = Super::where('name', '=', $data['name'][0])->count();
+        if($super > 0)
+            return $this->response(405, "Error: " . $data['name'][0] . " exists, and is wating in his Lair");
+
         // create new super
         $super = new Super();
         $super->name = $data['name'][0];
         $super->email = (isset($data['email'][0])) ? $data['email'][0] : '';
+        $super->type = $data['type'][0];
+        $super->image = $this->avatars[(rand(0, count($this->avatars)))];
         $super->strength = rand(1, 10);
         $super->speed = rand(1, 10);
         $super->attack = rand(1, 10);
@@ -60,7 +73,7 @@ class SuperController extends BaseController {
         $super->save();
         
         // if we're successful return a 200
-        return $this->response(200, "Complete");
+        return $this->response(201, "created successfully");
     }
 
     // Delete n item, we should use a soft delete!
@@ -98,6 +111,11 @@ class SuperController extends BaseController {
 
         if(!$content)
             $content = "Method not allowed";
+
+        $content = array(
+            "message" => $content,
+            "statusCode" => $status
+        );
 
         $response = Response::make($content, $status);
         $response->header('Content-Type', "application/json");

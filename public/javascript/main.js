@@ -2,39 +2,26 @@
 
 var superpeeps = new function() {
 
-	// Test data
-	this.test_supers = {
-		"Megatron": {
-			"strength": "10",
-			"attack": "5",
-			"speed": "9",
-			"description": "some content",
-			"email": "chris@outrunthewolf.com",
-			"type": "villain"
-		},
-		"Superman": {
-			"strength": "10",
-			"attack": "7",
-			"speed": "4",
-			"description": "some content",
-			"email": "chris@test.com",
-			"type" : "hero"
-		}
-	}
-
 	// Element variables
 	this.main = null;
 	this.holder = "main";
 	this.form_holder = "form_holder";
 	this.form_actual = "super_form"
 	this.overlay = "overlay";
+	this.super_holder = "super_holder";
+	this.super_box = "super_box";
 
 	// API variables
-	this.api_url = "http://localhost:49154";
-	//this.api_uri = 
+	this.api_url = "http://localhost:49160";
+
+	// mix arrays, objects
+	this.supers = {};
+	this.visible_supers = [];
 
 	// Other vars
 	this.overlay_active = false;
+	this.super_holder_active = false;
+
 
 	/*
 	*	Initialisor
@@ -50,6 +37,10 @@ var superpeeps = new function() {
 		});
 
 		// events on the box to show all heros
+		$(super_box).addEvent('click', function(e)
+		{
+			self.toggleSupers();
+		});
 
 		// event on each button to show a form with a hidden value
 		$$('.button.super').addEvent('click', function(e)
@@ -71,11 +62,14 @@ var superpeeps = new function() {
 		// add an event to the overlay to close itself and anything else
 		$(overlay).addEvent('click', function()
 		{
-			self.toggleForm();
+			// toggle form
+			if(self.form_active)
+				self.toggleForm();
+
+			// toggle supers off
+			if(self.super_holder_active)
+				self.toggleSupers();
 		});
-
-
-		// event on fight button to see some random fights
 
 		// form submit
 		$(this.form_actual).addEvent('submit', function(e)
@@ -83,17 +77,20 @@ var superpeeps = new function() {
 			e.stop();
 			self.createSuper();
 		});
+
+		// get any supers on load
+		this.getSupers();
 	}
 
 
 	/*
-	*
+	* 	Create a super
 	*/
 	this.createSuper = function()
 	{
 		// get all the form data, validate it
 		var f = $(this.form_actual);
-		console.log(f);
+		var self = this;
 
 		// get some data
 		var name = f.getElements('[name="c_name"').get("value");
@@ -119,19 +116,26 @@ var superpeeps = new function() {
 		// make a request
 		this.request(endpoint, data, "POST", function(d)
 		{
-			console.log(d);
+			if(d.statusCode == 201)
+				self.toggleForm();
 		});
 	}
 
+
+	/*
+	*	Make a request for superheros
+	*/
 	this.getSupers = function()
 	{
 		// set the endpoint
-		var endpoint = this.api_url + "/super";
+		var self = this;
+		var endpoint = this.api_url + "/api/super";
 
 		// make a request
 		this.request(endpoint, "", "GET", function(d)
 		{
-			console.log(d);
+			self.supers = d;
+			console.log("loading complete");
 		});
 	}
 
@@ -147,7 +151,7 @@ var superpeeps = new function() {
 		(cb) ? cb : function() {};
 
 		// actual request
-		var request = new Request({
+		var request = new Request.JSON({
 			url: url,
 			data: data,
 			method: method,
@@ -161,6 +165,7 @@ var superpeeps = new function() {
 			}
 		}).send();
 	}
+
 
 	/*
 	*
@@ -199,6 +204,73 @@ var superpeeps = new function() {
 		}
 	}
 
+
+	/*
+	*
+	*/
+	this.toggleSupers = function()
+	{
+		var holder = $(this.super_holder);
+		var self = this;
+		
+		if(this.super_holder_active)
+		{
+			this.toggleOverlay();
+
+			// Set some form styles
+			holder.setStyles({
+				'display': 'none'
+			});
+
+			// set inactive
+			this.super_holder_active = false;
+		}
+		else
+		{
+			// get the form and toggle the overlay
+			this.toggleOverlay();
+
+			// load all existing supers into cards and 
+			Object.each(this.supers, function(v, k)
+			{
+				// If we haven't parsed the ID before, do it now and store it
+				if(!self.visible_supers.contains(v.id))
+				{
+					var elem = new Element('li', {
+						class: 'card ' + v.type,
+						html: 	"<h3>" + v.name + "</h3>" +
+								"<img src='" + v.image + "' alt='" + v.name + "' />" + 
+								"<p>" + self.cpWord(v.type) + "</p>" +
+								"<ul>" +
+								"<li>Speed - " + v.speed + "</li>" +
+								"<li>Attack - " + v.attack + "</li>" + 
+								"<li>Strength - " + v.strength + "</li>" + 
+								"</ul>"
+					});
+
+					// new element
+					elem.inject(holder, 'top');
+
+					// push existing items into a mix array,
+					// we dont want to show things twice
+					self.visible_supers.push(v.id)
+				}
+			});
+
+			// Set some form styles
+			holder.setStyles({
+				'display': 'block',
+				'position': 'absolute',
+				'top': '50px',
+				'z-index': '9'
+			});
+
+			// set form active
+			this.super_holder_active = true;
+		}
+	}
+
+
 	/*
 	*
 	*/
@@ -219,7 +291,7 @@ var superpeeps = new function() {
 		{
 			var size = window.getSize();
 			overlay.setStyles({
-				'position': 'absolute',
+				'position': 'fixed',
 				'height': size.y,
 				'width': size.x,
 				'top': '0px',
@@ -232,6 +304,7 @@ var superpeeps = new function() {
 			this.overlay_active = true;
 		}
 	}
+
 
 	/*
 	*
@@ -249,6 +322,7 @@ var superpeeps = new function() {
 			});
 		}
 	}
+
 
 	/*
 	*	capitalise some stuff
