@@ -21,6 +21,7 @@ var superpeeps = new function() {
 	// Other vars
 	this.overlay_active = false;
 	this.super_holder_active = false;
+	this.animating = false;
 
 
 	/*
@@ -116,9 +117,27 @@ var superpeeps = new function() {
 		// make a request
 		this.request(endpoint, data, "POST", function(d)
 		{
+			// If we're bad
+			if(d.statusCode >= 400)
+			{
+				alert(d.message);
+				return false;
+			}
+
+			// If we're good
 			if(d.statusCode == 201)
+			{
 				self.toggleForm();
+			}
 		});
+	}
+
+	/*
+	*	Destroy a super
+	*/
+	this.destroySuper = function()
+	{
+		
 	}
 
 
@@ -146,6 +165,7 @@ var superpeeps = new function() {
 	this.request = function(url, data, method, cb)
 	{
 		// Set some defaults
+		var self = this;
 		(method) ? method : 'POST';
 		(data) ? data : '';
 		(cb) ? cb : function() {};
@@ -161,7 +181,7 @@ var superpeeps = new function() {
 			},
 			onRequest: function()
 			{
-				// maake sure we have something here to show ip sytuff
+				self.startPreloader();
 			}
 		}).send();
 	}
@@ -303,6 +323,66 @@ var superpeeps = new function() {
 			// set overlay active
 			this.overlay_active = true;
 		}
+	}
+
+	/*
+	*
+	*/
+	this.alert = function(string)
+	{
+		
+	}
+
+	/*
+	*
+	*/
+	this.startPreloader = function()
+	{
+		// maake sure we have something here to show ip sytuff
+		// Create a preloading tween
+		var self = this;
+		var size = window.getSize();
+		this.animating = true;
+		
+		// Set preloader tween
+		$('preloader').set('tween', 
+		{
+			duration: '250',
+			onComplete: function()
+			{
+				self.animating = false;
+				self.endPreloader();
+			}
+		});
+		
+		// Start preloader
+		$('preloader').tween("width", [0, size.x]);
+	}
+
+	/*
+	*	End preloader
+	*/
+	this.endPreloader = function()
+	{
+		// maake sure we have something here to show ip sytuff
+		// Create a preloading tween
+		var self = this;
+		var size = window.getSize();
+		this.animating = true;
+		
+		// Set preloader tween
+		$('preloader').set('tween', 
+		{
+			duration: '250',
+			onComplete: function()
+			{
+				self.animating = false;
+				this.stop();
+			}
+		});
+		
+		// Start preloader
+		$('preloader').tween("left", [0, size.x]);
 	}
 
 

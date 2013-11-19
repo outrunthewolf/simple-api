@@ -18,16 +18,18 @@
             text-align:center;
             padding: 0px;
             margin: 0px;
-            background: #0979b6;
+            background: #333;
         }
 
         .container {
+            /*
             background: linear-gradient(#dd2424 49%, transparent 49%),
             linear-gradient(-45deg, white 33%, transparent 33%) 0 50%,
             white linear-gradient(45deg, white 33%, #dd2424 33%) 0 50%;
             background-repeat: repeat-x;
             background-size: 1px 100%, 40px 40px, 40px 40px;
             height: 450px;
+            */
         }
 
         h1 {
@@ -163,6 +165,7 @@
             cursor: pointer;
             top: 300px;
             left: 50%;
+            z-index: 7;
         }
 
         /* hero cards */
@@ -177,7 +180,20 @@
         }
 
         /* preloader */
-        
+        #preloader {
+            height: 64px;
+            width: 64px;
+            background: url('images/477.GIF');
+            background-size: 64px 64px;
+            background-repeat: no-repeat;
+            position: fixed;
+            background-color: #fff;
+            left: 0px;
+            top: 35%;
+            width:100%;
+            background-position: top center;
+            z-index: 10;
+        }
 
 
     </style>
@@ -190,9 +206,6 @@
 </script>
     <div class="container">
         <div class="holder">
-
-            <div id="overlay" class="overlay"></div>
-            <div id="preloader" class="preloader"></div>
 
             <!-- Header -->
             <header>
@@ -236,6 +249,11 @@
             <footer>
                 <p>&copy; 2013</p> 
             </footer>
+
+            <div id="overlay" class="overlay"></div>
+            <div id="preloader" class="preloader"></div>
+            <div id="alert" class="alert"></div>
+
         </div>
     </div>
 </body>

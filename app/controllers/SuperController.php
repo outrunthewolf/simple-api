@@ -35,7 +35,7 @@ class SuperController extends BaseController {
  
         // If there is none by that id return a 404
         if (!$super)
-            return $this->response(404, "Error: We found no one");
+            return $this->response(404, "I couldn't find anyone with that id");
 
         return json_encode($super);
     }
@@ -48,16 +48,16 @@ class SuperController extends BaseController {
 
        // Check data
        if(!$data)
-            return $this->response(405, "Error: Method requires some data");
+            return $this->response(405, "This method requires some data");
 
         // Check we have a name
         if(!isset($data['name'][0]))
-            return $this->response(405, "Error: Superhero requires a name you fool!");
+            return $this->response(405, "Every super requires a name you fool!");
 
         // Check the name doesn't already exist
         $super = Super::where('name', '=', $data['name'][0])->count();
         if($super > 0)
-            return $this->response(405, "Error: " . $data['name'][0] . " exists, and is wating in his Lair");
+            return $this->response(405, $data['name'][0] . " already exists, and is wating in his lair");
 
         // create new super
         $super = new Super();
@@ -73,7 +73,7 @@ class SuperController extends BaseController {
         $super->save();
         
         // if we're successful return a 200
-        return $this->response(201, "created successfully");
+        return $this->response(200, "Created successfully");
     }
 
     // Delete n item, we should use a soft delete!
@@ -81,20 +81,20 @@ class SuperController extends BaseController {
     {
         // check its an integer
         if(!is_int($id))
-            return $this->response(405, "Error: Method requires an integer");
+            return $this->response(405, "This method requires an id");
 
         // fins the superhero
         $super = Super::find($id);
         
         // Check they exist
         if(!$super)
-            return $this->response(404, "Error: Super not found");
+            return $this->response(404, "I can't find that super");
 
         // delete them
         $super->delete();
 
         // return 
-        return $this->response(200, "Info: All sorted, he was destroyed");
+        return $this->response(200, "All done, the super was destroyed");
     }
 
     // Catch missing methods
@@ -117,7 +117,7 @@ class SuperController extends BaseController {
             "statusCode" => $status
         );
 
-        $response = Response::make($content, $status);
+        $response = Response::make($content, 200);
         $response->header('Content-Type', "application/json");
         return $response;
     }
