@@ -1,6 +1,6 @@
 ## About
 A simple API, built with Laravel for backend routing, and mootools for handling front end javascript.
-
+The application lets you create characters and store them in a database for retrieval, or deletion.
 
 ## Basic routes
 A list of basic routes the API provides
