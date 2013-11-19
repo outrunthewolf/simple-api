@@ -1,0 +1,236 @@
+@import url(http://fonts.googleapis.com/css?family=Sigmar+One);
+
+body {
+    margin:0;
+    font-family:'Lato', sans-serif;
+    text-align:center;
+    padding: 0px;
+    margin: 0px;
+    background: #333;
+}
+
+.container {
+    /*
+    background: linear-gradient(#dd2424 49%, transparent 49%),
+    linear-gradient(-45deg, white 33%, transparent 33%) 0 50%,
+    white linear-gradient(45deg, white 33%, #dd2424 33%) 0 50%;
+    background-repeat: repeat-x;
+    background-size: 1px 100%, 40px 40px, 40px 40px;
+    height: 450px;
+    */
+}
+
+h1 {
+    color: #fff;
+    font-family: "Sigmar One";
+    padding: 0px;
+    margin: 0px;
+    font-size: 45px;
+}
+
+h3 {
+    font-size: 30px;
+    color: #000;
+    margin: 0px;
+    padding: 8px;
+    font-family: "Sigmar One";
+}
+
+p {
+    font-size: 14px;
+    line-height: 18px;
+
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
+
+.holder {
+    width: 980px;
+    margin: 0px auto;
+}
+
+
+/* Buttons */
+a.button, input.button {
+    color: #fff;
+    font-family: "Sigmar One";
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 15px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+}
+@-webkit-keyframes greenPulse {
+    from { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
+    50% { background-color: #91bd09; -webkit-box-shadow: 0 0 18px #91bd09; }
+    to { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
+}
+a.green.button, input.green.button {
+    -webkit-animation-name: greenPulse;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes redPulse {
+    from { background-color: #fd3f58; -webkit-box-shadow: 0 0 9px #333; }
+    50% { background-color: #bb041c; -webkit-box-shadow: 0 0 18px #bb041c; }
+    to { background-color: #fd3f58; -webkit-box-shadow: 0 0 9px #333; }
+}
+a.red.button {
+    -webkit-animation-name: redPulse;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes bluePulse {
+    from { background-color: #044e76; -webkit-box-shadow: 0 0 9px #333; }
+    50% { background-color: #0979b6; -webkit-box-shadow: 0 0 18px #0979b6; }
+    to { background-color: #044e76; -webkit-box-shadow: 0 0 9px #333; }
+}
+a.blue.button, input.blue.button {
+    -webkit-animation-name: bluePulse;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-iteration-count: infinite;
+}
+
+/* cards */
+.card {
+    background: #fff;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    max-width: 200px;
+    padding: 15px;
+
+    -moz-box-shadow: 1px 3px 15px #A7A7A7;
+    -webkit-box-shadow: 1px 3px 15px #A7A7A7;
+    box-shadow: 1px 3px 15px #A7A7A7;
+}
+
+.card.villain {
+    border-top: solid 5px #bb041c;
+}
+
+.card.hero {
+     border-top: solid 5px #0979b6;
+}
+
+/* overlay */
+.overlay {
+    display: none;
+    background: rgba(54,54,54,0.8);
+}
+
+/* Form stuff */
+form label {
+    display: block;
+    padding: 5px;
+}
+
+form input {
+    padding:10px;
+}
+
+footer p {
+    color: #fff;
+}
+
+/* superbox */
+#super_box {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    top: 200px;
+    left: 43%;
+    z-index: 2;
+}
+
+/* hero cards */
+#super_holder {
+    display: none;
+    list-style-type: none;
+    max-width: 760px;
+}
+#super_holder li {
+    float: left;
+    margin: 10px;
+}
+#super_holder ul {
+    list-style-type: none;
+}
+#super_holder ul li {
+    margin: 0px;
+    padding: 0px;
+}
+
+/* preloader */
+#preloader {
+    height: 64px;
+    width: 64px;
+    background: url('../images/477.GIF');
+    background-size: 64px 64px;
+    background-repeat: no-repeat;
+    position: fixed;
+    background-color: #fff;
+    left: 0px;
+    top: 35%;
+    width:100%;
+    background-position: top center;
+    z-index: 10;
+}
+
+/* Cube */
+#cube {
+   padding: 0;
+   border: 4px solid #000;
+   width: 95px;
+   height: 110px;
+   margin: 110px 0 50px 100px;
+   background-color: #fff;
+   -webkit-transform: skew(0, -30deg);
+   -moz-transform: skew(0, -30deg);
+   -ms-transform: skew(0, -30deg);
+   -o-transform: skew(0, -30deg);
+   transform: skew(0, -30deg);
+}
+
+#cube:before, #cube:after {
+   content: "";
+   position: absolute;
+   margin: 0;
+   padding: 0;
+   border: 4px solid #000;
+   left: -103px;
+   top: -61px;
+   width: 95px;
+   height: 110px;
+   background-color: #fff;
+}
+
+#cube:before {
+   -webkit-transform: skew(0, 49deg);
+   -moz-transform: skew(0, 49deg);
+   -ms-transform: skew(0, 49deg);
+   -o-transform: skew(0, 49deg);
+   transform: skew(0, 49deg);
+}
+
+#cube:after {
+   top: -119px;
+   left: -53px;
+   width: 94px;
+   -webkit-transform: skew(41deg, 0);
+   -moz-transform: skew(41deg, 0);
+   -ms-transform: skew(41deg, 0);
+   -o-transform: skew(41deg, 0);
+   transform: skew(41deg, 0);
+}
+

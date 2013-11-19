@@ -1,10 +1,14 @@
 <?php
- 
+/*
+* 	Database Model
+*/ 
 class Super extends Eloquent {
-
+	
+	// Table Name
 	protected $table = 'supers';
-	protected $softDelete = true;
 
+	// Soft Delete active
+	protected $softDelete = true;
 }
 
 ?>

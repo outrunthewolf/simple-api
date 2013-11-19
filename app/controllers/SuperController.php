@@ -18,12 +18,21 @@ class SuperController extends BaseController {
         'http://static2.wikia.nocookie.net/__cb20130101030824/marveldatabase/images/9/98/Hulk_Main_Page_Icon.jpg'
     );
 
+    /**
+    *
+    **/
     public function __construct()
     {
         $this->input = Input::all();
     }
 
-    // get existing supers
+    /**
+    * GET - Get an item by id, or all items if none specified
+    *
+    * @param int $id - the id of the requested item
+    * @access public
+    * @return JSON
+    **/
     public function get_super($id = false)
     {
         // If there is no id return them all
@@ -64,7 +73,7 @@ class SuperController extends BaseController {
         $super->name = $data['name'][0];
         $super->email = (isset($data['email'][0])) ? $data['email'][0] : '';
         $super->type = $data['type'][0];
-        $super->image = $this->avatars[(rand(0, count($this->avatars)))];
+        $super->image = $this->avatars[(rand(1, count($this->avatars)))];
         $super->strength = rand(1, 10);
         $super->speed = rand(1, 10);
         $super->attack = rand(1, 10);
