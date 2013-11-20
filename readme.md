@@ -58,3 +58,10 @@ The landing page HTML is located in:
 ```shell
 app/views/hello.php
 ```
+
+### TODO
+
+- Return single item on create, and merge back into the local object
+- Re-factor the toggle functions, could be turned into possibly one main function
+- Add back in descriptions, and sort styles out appropriately
+- Add in the "Battle" functionality
