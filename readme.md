@@ -2,7 +2,7 @@
 A simple API, built with Laravel for backend routing, and mootools for handling front end javascript.
 The application lets you create characters and store them in a database for retrieval, or deletion.
 
-The actual app is best viewed in Chrome, or Firefox.
+The actual web app is best viewed in Chrome.
 
 ## Basic routes
 A list of basic routes the API provides

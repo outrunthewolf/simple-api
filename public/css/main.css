@@ -153,20 +153,30 @@ footer p {
     z-index: 2;
 }
 
+/*battleground*/
+#battleground {
+  display: block;
+  position: absolute;
+  cursor: pointer;
+}
+#battleground li {
+  margin: 10px;
+}
+
 /* hero cards */
-#super_holder {
+#super_holder, #battleground {
     display: none;
     list-style-type: none;
     max-width: 760px;
 }
-#super_holder li {
+#super_holder li{
     float: left;
     margin: 10px;
 }
-#super_holder ul {
+#super_holder ul, #battleground ul{
     list-style-type: none;
 }
-#super_holder ul li {
+#super_holder ul li, #battleground ul li{
     margin: 0px;
     padding: 0px;
 }

@@ -11,6 +11,7 @@ var superpeeps = new function() {
 	this.super_holder = "super_holder";
 	this.super_box = "super_box";
 	this.alert_box = "alert";
+	this.battleground = "battleground";
 
 	// API variables
 	this.api_url = "http://localhost:49160";
@@ -23,6 +24,7 @@ var superpeeps = new function() {
 	this.overlay_active = false;
 	this.super_holder_active = false;
 	this.animating = false;
+	this.battleground_active = false;
 
 
 	/*
@@ -80,6 +82,13 @@ var superpeeps = new function() {
 			self.createSuper();
 		});
 
+		/*
+		$('fight').addEvent('click', function()
+		{
+			self.battle();
+		});
+		*/
+
 		// get any supers on load
 		this.getSupers();
 	}
@@ -118,79 +127,61 @@ var superpeeps = new function() {
 		// make a request
 		this.request(endpoint, data, "POST", function(d)
 		{
-			// If we're bad
-			if(d.statusCode >= 400)
-			{
-				alert(d.message);
-				return false;
-			}
-
 			// If we're good
-			if(d.statusCode <= 201)
-			{
-				self.toggleForm();
-			}
-		});
-	}
-
-	/*
-	*	Destroy a super
-	*/
-	this.destroySuper = function(id)
-	{
-		console.log(id);
-		return;
-
-		// set the endpoint
-		var self = this;
-		var endpoint = this.api_url + "/api/drop";
-
-		// make a request
-		this.request(endpoint, id, "DELETE", function(d)
-		{
-			// remove the super from the array
-			// remove the element from the list
+			self.supers = d;
+			self.toggleForm();
 		});
 	}
 
 	/*
 	*
 	*/
-	battle = function()
+	this.battle = function()
 	{
+		// holding array
+		var arr = [];
+		var t = false;
+		var count = 0;
+
 		// get one hero, get one villain
 		// foreach one, iterate and create a new element for them
 		// push these new elements to the stage
-		var count = 0;
-		var type = false;
-		var super_array = [];
-
-		for(i =0; i <=2; i++)
+		Object.each(this.supers, function(v, k)
 		{
-			var r = getRandom();
-			
-			// Set a type for now
-			if(type == false)	
-				type = r.type;
+			if(count == 2) // we only want two
+				return false;
 
-			if(type !=false)
-				if(type.r == type)
-					continue;
-
-			super_array.push()
-
+			if(t)
+			{
+				if(v.type != arr[0].type)
+				{
+					arr.push(v);
+				}
+			}
+			else
+			{
+				t = v.type;
+				arr.push(v);
+			}
 			++count;
+		});
+
+		// Count less than 2, theres not enough to fight
+		if(arr.count < 2)
+		{
+			return alert("Looks like there's no-one to fight!");
 		}
 
+		// set a base score
+		arr[0].score = 0;
+		arr[1].score = 0;
 
-		// black out eveyrthing and do some calculatrions on the peeps
-		// essentially foreach attribute, work out which has the highest and award a pooint
-		// to the super
-		// then at the end we know which one has one
+		// speed, strength, attack
+		(arr[0].speed < arr[1].speed) ? arr[1].score++ : arr[0].score++;
+		(arr[0].strength < arr[1].strength) ? arr[1].score++ : arr[0].score++;
+		(arr[0].attack < arr[1].attack) ? arr[1].score++ : arr[0].score++;
 
-		// do some animation, remove all from the stage
-		// send a request to delete the super
-
+		//this.toggleBattleground(arr);
 	}
 
 
@@ -207,7 +198,6 @@ var superpeeps = new function() {
 		this.request(endpoint, "", "GET", function(d)
 		{
 			self.supers = d;
-			console.log("loading complete");
 		});
 	}
 
@@ -230,7 +220,16 @@ var superpeeps = new function() {
 			method: method,
 			onComplete: function(d)
 			{
-				cb(d);
+				// If we're bad
+				if(d.statusCode >= 400) // very custom to this api
+				{
+					alert(d.message);
+					return false;
+				}
+				else
+				{
+					cb(d);
+				}
 			},
 			onRequest: function()
 			{
@@ -310,17 +309,18 @@ var superpeeps = new function() {
 				// If we haven't parsed the ID before, do it now and store it
 				if(!self.visible_supers.contains(v.id))
 				{
+					var image = (v.image) ? v.image : '';
 					var elem = new Element('li', {
-						class: 'card ' + v.type,
+						class: 'card ' + v.type + " " + v.id,
 						html: 	"<h3>" + v.name + "</h3>" +
-								"<img src='" + v.image + "' alt='" + v.name + "' width='164' height='164' />" + 
+								"<img src='" + image + "' alt='" + v.name + "' width='164' height='164' />" + 
 								"<p>" + self.cpWord(v.type) + "</p>" +
-								"<ul>" +
+								/*"<ul>" +
 								"<li>Speed - " + v.speed + "</li>" +
 								"<li>Attack - " + v.attack + "</li>" + 
 								"<li>Strength - " + v.strength + "</li>" + 
-								"</ul>"
-								/*"<a href='javascript:void(0)' class='button red destroy' id='" + v.id + "'>Destroy</a>"*/
+								"</ul>" +*/
+								"<a href='javascript:void(0)' class='button red destroy' id='" + v.id + "'>Destroy</a>"
 					});
 
 					// new element
@@ -330,6 +330,31 @@ var superpeeps = new function() {
 					// we dont want to show things twice
 					self.visible_supers.push(v.id);
 				}
+			});
+
+			$$('.button.destroy').addEvent('click', function(e)
+			{
+				var id = e.id || this.id;
+				
+				// set the endpoint
+				var endpoint = self.api_url + "/api/drop";
+				var data = { "id": id }
+
+				// make a request
+				self.request(endpoint, data, "DELETE", function(d)
+				{
+					// delete the element
+					var el = $$('.card.' + id);
+					el.destroy();
+
+					// delete from the mix array and from supers
+    				position = self.visible_supers.indexOf(id);
+					if (position)
+					{
+						self.visible_supers.splice(position, 1);
+						self.supers.splice(position, 1);
+					}
+				});
 			});
 
 			// Set some form styles
@@ -344,7 +369,6 @@ var superpeeps = new function() {
 			this.super_holder_active = true;
 		}
 	}
-
 
 	/*
 	*
@@ -389,7 +413,7 @@ var superpeeps = new function() {
 
 		// show a box and hide it
 		box.set("text", string);
-		box.tween("")
+		//box.tween("")
 	}
 
 	/*

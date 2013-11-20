@@ -73,7 +73,7 @@ class SuperController extends BaseController {
         $super->name = $data['name'][0];
         $super->email = (isset($data['email'][0])) ? $data['email'][0] : '';
         $super->type = $data['type'][0];
-        $super->image = $this->avatars[(rand(1, count($this->avatars)))];
+        $super->image = $this->avatars[(rand(1, (count($this->avatars) - 1)))];
         $super->strength = rand(1, 10);
         $super->speed = rand(1, 10);
         $super->attack = rand(1, 10);
@@ -82,14 +82,18 @@ class SuperController extends BaseController {
         $super->save();
         
         // if we're successful return a 200
-        return $this->response(200, "Created successfully");
+        $supers = Super::all();
+        return $supers;
     }
 
     // Delete n item, we should use a soft delete!
-    public function delete_drop($id)
+    public function delete_drop()
     {
+        $data = $this->input;
+        $id = $data['id'];
+
         // check its an integer
-        if(!is_int($id))
+        if(!$id)
             return $this->response(405, "This method requires an id");
 
         // fins the superhero

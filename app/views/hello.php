@@ -23,8 +23,8 @@
 
             <!-- Header -->
             <header>
-                <h1>The Box</h1>
-                <p>Create you own Superheros or Supervillains, and make them battle it out!</p>
+                <h1>Super Box</h1>
+                <!--<p>Create you own Superheros or Supervillains, and make them battle it out!</p>-->
             </header>
             
             <!-- Main bit -->
@@ -39,8 +39,12 @@
                     <div id="cube"></div>
                 </div>
 
-                <!-- A Card -->
+                <!-- All Cards -->
                 <ul id="super_holder"></ul>
+
+                <!-- Battleground
+                <div id="battleground"></div>
+                -->
 
                 <!-- Create a hero form -->
                 <div id="form_holder" class="form card" style="display: none;">
@@ -60,6 +64,11 @@
                 </div>
             </div>
 
+            <!-- Fight
+            <a class="button green" id="fight">Fight!</a>
+            -->
+
+            <!-- Various -->
             <div id="overlay" class="overlay"></div>
             <div id="preloader" class="preloader"></div>
             <div id="alert" class="alert"></div>
