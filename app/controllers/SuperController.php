@@ -5,8 +5,10 @@ class SuperController extends BaseController {
     // Restful variable
     public $restful = true;
 
-    // Various vars for some stuff
+    // Local input
     private $input;
+
+    // Some avatars for fun
     private $avatars = array(
         'http://static4.wikia.nocookie.net/__cb20130101030833/marveldatabase/images/e/e6/Thor_Main_Page_Icon.jpg',
         'http://static2.wikia.nocookie.net/__cb20130101030909/marveldatabase/images/0/00/Deadpool_Main_Page_Icon.jpg',
@@ -49,7 +51,13 @@ class SuperController extends BaseController {
         return json_encode($super);
     }
 
-    // create a super
+
+    /**
+    * POST - Create an item
+    *
+    * @access public
+    * @return JSON
+    **/
     public function post_create()
     {
        // get some data
@@ -86,7 +94,13 @@ class SuperController extends BaseController {
         return $supers;
     }
 
-    // Delete n item, we should use a soft delete!
+    /**
+    * DELETE - Delete an item by id
+    *
+    * @param int $id - the id of the requested item
+    * @access public
+    * @return JSON
+    **/
     public function delete_drop()
     {
         $data = $this->input;
@@ -110,13 +124,26 @@ class SuperController extends BaseController {
         return $this->response(200, "All done, the super was destroyed");
     }
 
-    // Catch missing methods
+    /**
+    * * - Catch for any missing methods
+    *
+    * @param int $id - the id of the requested item
+    * @access public
+    * @return JSON
+    **/
     public function missingMethod($param)
     {
         return Response::json('Nothing Found', 404);
     }
 
-    // Response function
+    /**
+    * Response function
+    *
+    * @param int $status
+    * @param string $content
+    * @access private
+    * @return string
+    **/
     private function response($status, $content)
     {
         if(!$status)
