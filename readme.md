@@ -53,3 +53,8 @@ The endpoint URL can be changed within the main javascript file:
 // API variables
 this.api_url = "http://localhost:49160";
 ```
+
+The landing page HTML is located in:
+```shell
+app/views/hello.php
+```

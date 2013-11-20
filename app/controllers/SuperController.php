@@ -48,7 +48,7 @@ class SuperController extends BaseController {
         if (!$super)
             return $this->response(404, "I couldn't find anyone with that id");
 
-        return json_encode($super);
+        return $super;
     }
 
 

@@ -329,32 +329,32 @@ var superpeeps = new function() {
 					// push existing items into a mix array,
 					// we dont want to show things twice
 					self.visible_supers.push(v.id);
-				}
-			});
 
-			$$('.button.destroy').addEvent('click', function(e)
-			{
-				var id = e.id || this.id;
-				
-				// set the endpoint
-				var endpoint = self.api_url + "/api/drop";
-				var data = { "id": id }
-
-				// make a request
-				self.request(endpoint, data, "DELETE", function(d)
-				{
-					// delete the element
-					var el = $$('.card.' + id);
-					el.destroy();
-
-					// delete from the mix array and from supers
-    				position = self.visible_supers.indexOf(id);
-					if (position)
+					$(v.id).addEvent('click', function(e)
 					{
-						self.visible_supers.splice(position, 1);
-						self.supers.splice(position, 1);
-					}
-				});
+						var id = e.id || this.id;
+						
+						// set the endpoint
+						var endpoint = self.api_url + "/api/drop";
+						var data = { "id": id }
+
+						// make a request
+						self.request(endpoint, data, "DELETE", function(d)
+						{
+							// delete the element
+							var el = $$('.card.' + id);
+							el.destroy();
+
+							// delete from the mix array and from supers
+		    				position = self.visible_supers.indexOf(id);
+							if (position)
+							{
+								self.visible_supers.splice(position, 1);
+								self.supers.splice(position, 1);
+							}
+						});
+					});
+				}
 			});
 
 			// Set some form styles
