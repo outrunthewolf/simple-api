@@ -26,7 +26,12 @@ DELETE /api/drop/{id}
 
 #### Backend
 
-SQL file is included in the repo for test purposes. Database configured in:
+SQL file is included in the repo for test purposes located here:
+```shell
+public/db_backup/superheros_sql_backup.sql
+```
+
+Database configured in:
 ```shell
 app/config/database.php
 ```
@@ -36,7 +41,7 @@ Controller handling endpoints, etc... located in:
 app/controllers/SuperController.php
 ```
 
-Model uses eloquent, located in:
+Model uses eloquent with soft delete, located in:
 ```shell
 app/models/Super.php
 ```
