@@ -65,16 +65,16 @@ class SuperController extends BaseController {
 
        // Check data
        if(!$data)
-            return $this->response(405, "This method requires some data");
+            return $this->response(406, "This method requires some data");
 
         // Check we have a name
         if(!isset($data['name'][0]))
-            return $this->response(405, "Every super requires a name you fool!");
+            return $this->response(406, "Every super requires a name you fool!");
 
         // Check the name doesn't already exist
         $super = Super::where('name', '=', $data['name'][0])->count();
         if($super > 0)
-            return $this->response(405, $data['name'][0] . " already exists, and is wating in his lair");
+            return $this->response(409, $data['name'][0] . " already exists, and is wating in his lair");
 
         // create new super
         $super = new Super();
@@ -108,7 +108,7 @@ class SuperController extends BaseController {
 
         // check its an integer
         if(!$id)
-            return $this->response(405, "This method requires an id");
+            return $this->response(406, "This method requires an id");
 
         // fins the superhero
         $super = Super::find($id);
@@ -147,7 +147,7 @@ class SuperController extends BaseController {
     private function response($status, $content)
     {
         if(!$status)
-            $status = 405;
+            $status = 406;
 
         if(!$content)
             $content = "Method not allowed";
