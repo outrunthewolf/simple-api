@@ -67,6 +67,9 @@ app/views/hello.php
 ### TODO
 
 - Return single item on create, and merge back into the local object
+- Handle multiple error codes on request, rather than just filtering one
+- Pass JS vars through init function on DOM ready, rather than having to edit the JS file
+- Run getSupers() regularly, to get any supers made by other people at the same time
 - Re-factor the toggle functions, could be turned into possibly one main function
 - Add back in descriptions, and sort styles out appropriately
 - Add in the "Battle" functionality
